@@ -1,160 +1,128 @@
-Multi-Container Blog Platform
+# Multi-Container Blog Platform
 
-This project implements a complete blog application using a multi-container Docker architecture. It demonstrates how separate services (frontend, backend, and database) can communicate within a shared Docker network while maintaining persistent storage and clean API boundaries.
+This project implements a complete blog application using a multi-container Docker architecture. It demonstrates how separate services (frontend, backend, and database) communicate within a shared Docker network while maintaining persistent storage and clean API boundaries.
 
-🚀 Technologies Used
+## Technologies Used
 
-Docker & Docker Compose
+- Docker & Docker Compose  
+- Node.js + Express (backend API)  
+- MySQL 8 (database)  
+- Nginx (frontend static hosting)  
+- JWT Authentication  
+- Multer (image uploads)  
+- bcrypt (password hashing)
 
-Node.js + Express (backend API)
+## Architecture Overview
 
-MySQL 8 (database)
+The application is composed of three containers.
 
-Nginx (frontend static hosting)
+### 1. Frontend (Nginx)
+- Serves static HTML/CSS/JS  
+- Interacts with backend via REST API  
+- Allows viewing, creating, editing, and deleting posts  
+- Supports optional image upload during post creation
 
-JWT Authentication
+### 2. Backend (Node.js + Express)
+- Exposes REST API:
+  - User registration and login  
+  - JWT-based authentication  
+  - Blog CRUD operations  
+  - Image upload handling  
+- Serves uploaded images statically  
+- Connects to MySQL using the internal Docker hostname `db`
 
-Multer (image uploads)
+### 3. MySQL Database
+- Stores users, posts, and image paths  
+- Uses Docker volume `db_data` for persistence
 
-bcrypt (password hashing)
+## Docker Compose Setup
 
-⚙️ Architecture Overview
-
-The application is composed of three containers:
-
-1. Frontend (Nginx)
-
-Serves static HTML/CSS/JS
-
-Interacts with backend via REST API
-
-Allows viewing posts, creating posts, editing, deleting
-
-Optional image upload during post creation
-
-2. Backend (Node.js + Express)
-
-Exposes REST API:
-
-User registration & login
-
-JWT-based authentication
-
-Blog CRUD operations
-
-Image upload handling
-
-Serves uploaded images statically
-
-Connects to MySQL using internal Docker hostname db
-
-3. MySQL Database
-
-Stores users, posts, and image paths
-
-Uses Docker volume db_data for persistence
-
-🐳 Docker Compose Setup
-
-To start all services:
-
+Start all services:
+```bash
 docker-compose up --build
+```
 
 
 This launches:
+- `blog-frontend` (Nginx, port 3000)  
+- `blog-backend` (Node API, port 8080)  
+- `blog-db` (MySQL, port 3306 with persistent volume)
 
-blog-frontend (Nginx, port 3000)
+Access points:
+- Frontend: http://localhost:3000  
+- Backend: http://localhost:8080
 
-blog-backend (Node API, port 8080)
+## Features
 
-blog-db (MySQL, port 3306 with persistent volume)
+### Authentication
+- User registration  
+- Login with username/password  
+- Passwords hashed with bcrypt  
+- JWT issued on login  
+- Protected routes for create, edit, and delete operations
 
-Visit:
+### Blog Management
+- Public viewing of posts  
+- Create new post (protected)  
+- Edit and delete posts (protected)  
+- Optional image upload  
+- Images stored in `backend/uploads` and served via `/uploads/...`
 
-Frontend: http://localhost:3000
+### Database Schema
 
-Backend: http://localhost:8080
+**users**  
+- id  
+- username (unique)  
+- password (hashed)
 
-📝 Features
-✅ Authentication
+**posts**  
+- id  
+- title  
+- content  
+- image path  
+- timestamp  
 
-Register new users
+## Project Structure
 
-Login with username/password
-
-Passwords hashed with bcrypt
-
-JWT tokens issued on login
-
-Protected routes for create/edit/delete
-
-✅ Blog Management
-
-View all posts (public)
-
-Create new post (protected)
-
-Edit & delete posts (protected)
-
-Optional image upload
-
-Images stored in backend/uploads and served via /uploads/...
-
-✅ Database Schema
-
-users
-
-id, username (unique), password (hashed)
-
-posts
-
-id, title, content, image path, timestamp
-
-📦 Project Structure
 multi-container-blog/
 │
 ├── backend/
-│   ├── routes/
-│   ├── models/
-│   ├── uploads/
-│   ├── Dockerfile
-│   └── server.js
+│ ├── routes/
+│ ├── models/
+│ ├── uploads/
+│ ├── Dockerfile
+│ └── server.js
 │
 ├── frontend/
-│   ├── index.html
-│   └── styles.css
+│ ├── index.html
+│ └── styles.css
 │
 └── docker-compose.yml
 
-📌 Future Improvements
 
-Hosting backend to a cloud provider supporting Docker-based deployment.
+## Future Improvements
 
-Adding support for image updates and multiple attachments.
+- Deploy backend to a cloud provider supporting Docker  
+- Allow updating images and adding multiple attachments  
+- Improve frontend responsiveness  
+- Add admin-only features  
+- Improve validation and add rate limiting  
 
-Improving frontend responsiveness.
+## Running the Project Locally
 
-Adding admin-only features.
+1. Install Docker Desktop  
+2. Clone this repository  
+3. Run:
 
-Enhanced request validation and rate limiting.
-
-🧪 Running the Project Locally
-
-Install Docker Desktop
-
-Clone this repo
-
-Run:
-
+```bash
 docker-compose up --build
+```
 
+4. Open your browser:
+   - Frontend: http://localhost:3000  
+   - Backend health check: http://localhost:8080/
 
-Open your browser:
+## Conclusion
 
-Frontend: http://localhost:3000
+This project demonstrates a complete containerized full-stack web application using Docker. It showcases cross-container networking, persistent storage using Docker volumes, secure authentication with JWT, and a modular multi-service architecture.
 
-API health check: http://localhost:8080/
-
-🎉 Conclusion
-
-This project demonstrates a complete, containerized full-stack web application using Docker. It showcases cross-container networking, persistent storage with Docker volumes, secure authentication using JWT, and a fully modular multi-service architecture.
