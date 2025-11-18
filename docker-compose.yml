@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: blog-backend
+    ports:
+      - "8080:8080"
+    volumes:            # <-- ADD THIS BLOCK
+      - ./backend/uploads:/app/uploads
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=password
+      - DB_NAME=blogdb
+      - JWT_SECRET=supersecretstring
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - blog-network
+
+  db:
+    image: mysql:8.0.40
+    container_name: blog-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: blogdb
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+    networks:
+      - blog-network
+
+  frontend:
+    image: nginx:alpine
+    container_name: blog-frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    networks:
+      - blog-network
+
+volumes:
+  db_data:
+
+networks:
+  blog-network:
+    driver: bridge
