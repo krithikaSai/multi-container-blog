@@ -68,38 +68,6 @@ Access points:
 - Optional image upload  
 - Images stored in `backend/uploads` and served via `/uploads/...`
 
-### Database Schema
-
-**users**  
-- id  
-- username (unique)  
-- password (hashed)
-
-**posts**  
-- id  
-- title  
-- content  
-- image path  
-- timestamp  
-
-## Project Structure
-
-multi-container-blog/
-│
-├── backend/
-│ ├── routes/
-│ ├── models/
-│ ├── uploads/
-│ ├── Dockerfile
-│ └── server.js
-│
-├── frontend/
-│ ├── index.html
-│ └── styles.css
-│
-└── docker-compose.yml
-
-
 ## Future Improvements
 
 - Deploy backend to a cloud provider supporting Docker  
