@@ -30,6 +30,3 @@ http://localhost:3000
 
 Backend API:  
 http://localhost:8080
-
-### 5. Video presentation
-https://1drv.ms/v/c/3d36d2d45b553d88/ESZ9fx5y5CxHk0i83-Xyv_0Bnllg5V039AJkwHpTubh5Fw
