@@ -2,10 +2,6 @@
 
 A simple full-stack blog application built using Docker, Node.js, and MySQL. It supports user authentication, creating and editing posts, and optional image uploads. The entire system runs inside a clean multi-container setup using Docker Compose.
 
-## Presentation Link
-Full walkthrough video:  
-https://1drv.ms/v/c/3d36d2d45b553d88/ESZ9fx5y5CxHk0i83-Xyv_0Bnllg5V039AJkwHpTubh5Fw
-
 ## How to Run the Project
 
 ### 1. Clone the Repository
